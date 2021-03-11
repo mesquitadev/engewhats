@@ -39,6 +39,7 @@ app.on('ready', () => {
     });
 
     function createTray() {
+        
         let appIcon = new Tray(path.join(__dirname, "./build/wpp_ico.ico"));
         const contextMenu = Menu.buildFromTemplate([
             {
@@ -54,13 +55,34 @@ app.on('ready', () => {
             }
         ]);
 
-        appIcon.on('double-click', function (event) {
-            mainWindow.show();
-        });
-        appIcon.setToolTip('Tray Tutorial');
+        if(process.platform === 'win32') {
+            appIcon.on('double-click', function (event) {
+                mainWindow.show();
+            });
+        }
+        appIcon.setToolTip('Integrador Whatsapp | Engeplus Sistemas');
         appIcon.setContextMenu(contextMenu);
         return appIcon;
     }
 });
 
+
+
+app.on('ready', () => {
+  tray = new Tray(path.join(__dirname, '/Icon.png'));
+
+  if (process.platform === 'win32') {
+    tray.on('click', tray.popUpContextMenu);
+  }
+
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click() { app.quit(); }
+    }
+  ]);
+
+  tray.setToolTip('Clipmaster');
+  tray.setContextMenu(menu);
+});
 
